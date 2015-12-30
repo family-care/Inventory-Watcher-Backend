@@ -1,4 +1,4 @@
-package com.github.budgettracker.vertx.http.routing;
+package com.github.inventorytracker.verticle.http.routing;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;

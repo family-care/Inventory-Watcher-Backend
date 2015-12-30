@@ -1,7 +1,7 @@
-package com.github.budgettracker.vertx.http;
+package com.github.inventorytracker.verticle.http;
 
-import com.github.budgettracker.vertx.http.routing.FrontendHandler;
-import com.github.budgettracker.vertx.http.routing.LoginHandler;
+import com.github.inventorytracker.verticle.http.routing.FrontendHandler;
+import com.github.inventorytracker.verticle.http.routing.LoginHandler;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;

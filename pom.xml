@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.inventorytracker</groupId>
-  <artifactId>backend-vertx</artifactId>
+  <artifactId>inventory-tracker-backend-vertx</artifactId>
   <version>0.1.0</version>
 
   <properties>
@@ -36,6 +36,12 @@
       <version>1.16.6</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -48,6 +54,16 @@
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>4.12</version>
+          <configuration>
+            <additionalClasspathElements>
+              <additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement>
+            </additionalClasspathElements>
           </configuration>
         </plugin>
       </plugins>
