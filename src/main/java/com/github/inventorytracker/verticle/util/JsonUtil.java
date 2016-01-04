@@ -1,11 +1,30 @@
 package com.github.inventorytracker.verticle.util;
 
-import io.vertx.core.json.JsonObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 public class JsonUtil {
-    public static void putIfValueNotNull(JsonObject json, String key, Object value) {
-        if(value!=null){
-            json.put(key, value);
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    public static String toJson(Object o) {
+        String result;
+        try {
+            result = mapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
         }
+        return result;
+    }
+
+    public static <T> T fromJson(String source, Class<T> type) {
+        T result;
+        try {
+            result = mapper.readValue(source, type);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return result;
     }
 }
