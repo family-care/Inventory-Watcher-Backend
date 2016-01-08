@@ -1,17 +1,21 @@
 package com.github.inventorytracker.dao;
 
+import com.github.inventorytracker.dao.impl.ItemDaoImpl;
+import com.github.inventorytracker.model.Item;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
-import io.vertx.ext.mongo.MongoClient;
 
-public class ItemDao {
-    private MongoClient client;
-    private Vertx vertx;
+import java.util.List;
 
-    public ItemDao(Vertx vertx){
-        this.vertx=vertx;
-        this.client = MongoClient.createShared(vertx, new JsonObject());
+public interface ItemDao {
+    static ItemDao getInstance(Vertx vertx){
+        return new ItemDaoImpl(vertx);
     }
 
-
+    void getItems(Handler<AsyncResult<List<Item>>> handler);
+    void getItem(String id, Handler<AsyncResult<Item>> handler);
+    void createItem(Item item, Handler<AsyncResult<String>> handler);
+    void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler);
+    void removeItem(String id, Handler<AsyncResult<Void>> handler);
 }
