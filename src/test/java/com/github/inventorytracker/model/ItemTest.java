@@ -1,7 +1,7 @@
 package com.github.inventorytracker.model;
 
 
-import com.github.inventorytracker.verticle.util.JsonUtil;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.*;
@@ -30,7 +30,7 @@ public class ItemTest {
 
     @Test
     public void testPojoToString() {
-        String test = JsonUtil.toJson(
+        String test = Json.encode(
                 Item.builder()
                         .name("AAA")
                         .quantity(20)
@@ -38,6 +38,7 @@ public class ItemTest {
                         .build());
         String expected = new JsonObject()
                 .put("name", "AAA")
+                .putNull("barcode")
                 .put("quantity", 20)
                 .put("unit", "kg")
                 .putNull("bestBefore")
@@ -49,7 +50,7 @@ public class ItemTest {
 
     @Test
     public void testStringToPojo() {
-        Item test = JsonUtil.fromJson(
+        Item test = Json.decodeValue(
                 new JsonObject()
                         .put("name", "AAA")
                         .put("quantity", 20)

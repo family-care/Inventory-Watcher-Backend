@@ -2,10 +2,10 @@ package com.github.inventorytracker.dao.impl;
 
 import com.github.inventorytracker.dao.ItemDao;
 import com.github.inventorytracker.model.Item;
-import com.github.inventorytracker.verticle.util.JsonUtil;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 
@@ -44,12 +44,12 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
-        client.insert(COLLECTION, new JsonObject(JsonUtil.toJson(item)), handler::handle);
+        client.insert(COLLECTION, new JsonObject(Json.encode(item)), handler::handle);
     }
 
     @Override
     public void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler) {
-        JsonObject replacement = new JsonObject(JsonUtil.toJson(item));
+        JsonObject replacement = new JsonObject(Json.encode(item));
         client.replace(COLLECTION, idObject(id), replacement, handler::handle);
     }
 
