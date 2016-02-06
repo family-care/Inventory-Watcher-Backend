@@ -1,6 +1,7 @@
 package com.github.inventorytracker.model;
 
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -14,6 +15,7 @@ public class ItemTest {
 
     @BeforeClass
     public static void setUpClass() {
+        Json.registerModule(new JavaTimeModule());
     }
 
     @AfterClass

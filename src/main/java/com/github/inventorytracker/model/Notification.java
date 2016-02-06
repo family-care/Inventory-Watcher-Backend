@@ -18,6 +18,10 @@ import java.time.LocalDate;
 @JsonInclude(Include.NON_NULL)
 public class Notification {
 
+    static {
+        Json.registerModule(new JavaTimeModule());
+    }
+
     @NonNull
     LocalDate on;
     int repeatInterval;
