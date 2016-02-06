@@ -14,13 +14,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ItemDaoImpl implements ItemDao {
-    private static final String COLLECTION = "items";
     private MongoClient client;
     private Vertx vertx;
 
-    public ItemDaoImpl(Vertx vertx) {
+    public ItemDaoImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;
-        this.client = MongoClient.createShared(vertx, new JsonObject());
+        this.client = MongoClient.createShared(vertx, config);
     }
 
     @Override
@@ -44,6 +43,7 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
+        String str = Json.encode(item);
         client.insert(COLLECTION, new JsonObject(Json.encode(item)), handler::handle);
     }
 

@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.3.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.0.33.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.0.33.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.0.33.Final" level="project" />
@@ -29,9 +29,20 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.6.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.6.1" level="project" />
+    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.16.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.vertx:vertx-unit:3.2.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.mongo:1.50.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.process:1.50.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-lang3:3.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.java.dev.jna:jna:4.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.java.dev.jna:jna-platform:4.0.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-compress:1.3" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.7.13" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.13" level="project" />
   </component>
 </module>

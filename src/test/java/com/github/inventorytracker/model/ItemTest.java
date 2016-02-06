@@ -38,12 +38,9 @@ public class ItemTest {
                         .build());
         String expected = new JsonObject()
                 .put("name", "AAA")
-                .putNull("barcode")
-                .put("quantity", 20)
+                .put("quantity", 20.0)
                 .put("unit", "kg")
-                .putNull("bestBefore")
                 .put("tags", new JsonArray())
-                .putNull("notification")
                 .encode();
         assertEquals(expected, test);
     }

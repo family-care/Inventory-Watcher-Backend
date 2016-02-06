@@ -1,5 +1,7 @@
 package com.github.inventorytracker.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
@@ -13,11 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @DataObject
+@JsonInclude(Include.NON_NULL)
 public class Item {
+    String _id;
     @NonNull
     String name;
     String barcode;
-    int quantity;
+    double quantity;
     String unit;
     LocalDate bestBefore;
     @Singular
@@ -25,7 +29,7 @@ public class Item {
     Notification notification;
 
     public Item(Item item) {
-        this(item.name, item.barcode, item.quantity, item.unit, item.bestBefore, item.tags, item.notification);
+        this(item._id, item.name, item.barcode, item.quantity, item.unit, item.bestBefore, item.tags, item.notification);
     }
 
     public Item(JsonObject json) {
