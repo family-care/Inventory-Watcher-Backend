@@ -15,7 +15,7 @@ public class ItemTest {
 
     @BeforeClass
     public static void setUpClass() {
-        Json.registerModule(new JavaTimeModule());
+        Json.mapper.registerModule(new JavaTimeModule());
     }
 
     @AfterClass

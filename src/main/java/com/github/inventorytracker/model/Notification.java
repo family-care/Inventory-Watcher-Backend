@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Notification {
 
     static {
-        Json.registerModule(new JavaTimeModule());
+        Json.mapper.registerModule(new JavaTimeModule());
     }
 
     @NonNull

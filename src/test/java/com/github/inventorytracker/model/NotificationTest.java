@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class NotificationTest {
     @BeforeClass
     public static void init(){
-        Json.registerModule(new JavaTimeModule());
+        Json.mapper.registerModule(new JavaTimeModule());
     }
 
     @Test

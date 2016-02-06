@@ -52,7 +52,7 @@ public class ItemDaoImplTest {
 
     @BeforeClass
     public static void init(TestContext context) throws IOException, InterruptedException {
-        Json.registerModule(new JavaTimeModule());
+        Json.mapper.registerModule(new JavaTimeModule());
 
         MONGO = startEmbeddedMongo();
         vertx = Vertx.vertx();
