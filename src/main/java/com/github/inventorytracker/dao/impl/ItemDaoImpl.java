@@ -14,8 +14,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ItemDaoImpl implements ItemDao {
-    private MongoClient client;
-    private Vertx vertx;
+    private final MongoClient client;
+    private final Vertx vertx;
 
     public ItemDaoImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;
