@@ -67,3 +67,4 @@ public class NotificationTest {
         assertEquals(expected, test);
     }
 }
+//todo test validate method
