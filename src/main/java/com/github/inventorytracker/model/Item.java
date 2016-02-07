@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @DataObject
 @JsonInclude(Include.NON_NULL)
-public class Item implements Validatable{
+public class Item implements Validatable, JsonConvertable{
     public static final String NAME_MUST_NOT_BE_NULL = "Name must not be null!";
     
     String _id;

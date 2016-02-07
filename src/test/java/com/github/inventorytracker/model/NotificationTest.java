@@ -90,4 +90,16 @@ public class NotificationTest {
         assertEquals(1, errors.size());
         assertTrue(errors.contains(Notification.ON_MUST_NOT_BE_NULL));
     }
+    
+    @Test
+    public void testJsonConvertable(){
+        Notification expected = Notification.builder()
+                .on(LocalDate.parse("2007-12-03"))
+                .repeatInterval(3)
+                .unit(DateUnit.DAY)
+                .build();
+        String json =  expected.toJson();
+        Notification test = new Notification(json);
+        assertEquals(expected, test);
+    }
 }

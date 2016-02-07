@@ -157,4 +157,22 @@ public class ItemTest {
         assertEquals(1, errors.size());
         assertTrue(errors.contains(Item.NAME_MUST_NOT_BE_NULL));
     }
+    
+    @Test
+    public void testJsonConvertable(){
+        Item expected = Item.builder()
+                .name("AAA")
+                .quantity(20)
+                .unit("kg")
+                .notification(
+                        Notification.builder()
+                        .on(LocalDate.parse("2007-12-03"))
+                        .repeatInterval(2)
+                        .unit(DateUnit.DAY)
+                        .build())
+                .build();
+        String json = expected.toJson();
+        Item test = new Item(json);
+        assertEquals(expected, test);
+    }
 }

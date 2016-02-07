@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @DataObject
 @JsonInclude(Include.NON_NULL)
-public class Notification implements Validatable{
+public class Notification implements Validatable, JsonConvertable{
     public static final String ON_MUST_NOT_BE_NULL= "On must not be null";
 
     static {
