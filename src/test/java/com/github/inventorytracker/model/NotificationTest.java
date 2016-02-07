@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
+import java.util.List;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class NotificationTest {
 
@@ -66,5 +68,26 @@ public class NotificationTest {
                 .build();
         assertEquals(expected, test);
     }
+
+    @Test
+    public void testValidateValidItem() {
+        Notification input = Notification.builder()
+                .on(LocalDate.parse("2007-12-03"))
+                .repeatInterval(3)
+                .unit(DateUnit.DAY)
+                .build();
+        List<String> errors = input.validate();
+        assertTrue(errors.isEmpty());
+    }
+
+    @Test
+    public void testValidateInvalidItem() {
+        Notification input = Notification.builder()
+                .repeatInterval(3)
+                .unit(DateUnit.DAY)
+                .build();
+        List<String> errors = input.validate();
+        assertEquals(1, errors.size());
+        assertTrue(errors.contains(Notification.ON_MUST_NOT_BE_NULL));
+    }
 }
-//todo test validate method

@@ -5,12 +5,16 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ItemTest {
 //todo test validate method
+
     @BeforeClass
     public static void setUpClass() {
         Json.mapper.registerModule(new JavaTimeModule());
@@ -137,5 +141,20 @@ public class ItemTest {
                 .unit("kg")
                 .build();
         assertEquals(expected, test);
+    }
+
+    @Test
+    public void testValidateValidItem() {
+        Item input = Item.builder().name("AAA").barcode("012345").build();
+        List<String> errors = input.validate();
+        assertTrue(errors.isEmpty());
+    }
+    
+    @Test
+    public void testValidateInvalidItem(){
+        Item input = new Item();
+        List<String> errors = input.validate();
+        assertEquals(1, errors.size());
+        assertTrue(errors.contains(Item.NAME_MUST_NOT_BE_NULL));
     }
 }

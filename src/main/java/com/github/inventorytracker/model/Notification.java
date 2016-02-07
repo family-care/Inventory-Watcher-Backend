@@ -9,6 +9,8 @@ import io.vertx.core.json.JsonObject;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,13 +18,13 @@ import java.time.LocalDate;
 @Builder
 @DataObject
 @JsonInclude(Include.NON_NULL)
-public class Notification {
+public class Notification implements Validatable{
+    public static final String ON_MUST_NOT_BE_NULL= "On must not be null";
 
     static {
         Json.mapper.registerModule(new JavaTimeModule());
     }
-
-    @NonNull
+    
     LocalDate on;
     int repeatInterval;
     DateUnit unit;
@@ -33,5 +35,18 @@ public class Notification {
 
     public Notification(JsonObject json) {
         this(Json.decodeValue(json.encode(), Notification.class));
+    }
+    
+    public Notification(String json) {
+        this(Json.decodeValue(json, Notification.class));
+    }
+
+    @Override
+    public List<String> validate() {
+        List<String> errors = new ArrayList<>();
+        if(on==null){
+            errors.add(ON_MUST_NOT_BE_NULL);
+        }
+        return errors;
     }
 }

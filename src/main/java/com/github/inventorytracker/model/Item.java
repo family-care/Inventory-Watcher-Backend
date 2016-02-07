@@ -8,6 +8,7 @@ import io.vertx.core.json.JsonObject;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,9 +17,10 @@ import java.util.List;
 @Builder
 @DataObject
 @JsonInclude(Include.NON_NULL)
-public class Item {
+public class Item implements Validatable{
+    public static final String NAME_MUST_NOT_BE_NULL = "Name must not be null!";
+    
     String _id;
-    @NonNull
     String name;
     String barcode;
     double quantity;
@@ -34,5 +36,18 @@ public class Item {
 
     public Item(JsonObject json) {
         this(Json.decodeValue(json.encode(), Item.class));
+    }
+    
+    public Item(String json){
+        this(Json.decodeValue(json, Item.class));
+    }
+
+    @Override
+    public List<String> validate() {
+        List<String> errors = new ArrayList<>();
+        if(name==null){
+            errors.add(NAME_MUST_NOT_BE_NULL);
+        }
+        return errors;
     }
 }
