@@ -12,7 +12,7 @@ import java.util.List;
 public interface ItemDao {
     String COLLECTION = "items";
 
-    static ItemDao getInstance(Vertx vertx, JsonObject config) {
+    static ItemDao create(Vertx vertx, JsonObject config) {
         return new ItemDaoImpl(vertx, config);
     }
 
