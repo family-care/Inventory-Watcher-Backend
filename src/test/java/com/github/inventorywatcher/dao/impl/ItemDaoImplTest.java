@@ -37,8 +37,8 @@ import java.util.Set;
 public class ItemDaoImplTest {
 
     private static final int MONGO_PORT = 12345;
-    private static MongoManager mongoManager;
     private static final JsonObject CONFIG = new JsonObject().put("host", "localhost").put("port", MONGO_PORT);
+    private static MongoManager mongoManager;
     private static Vertx vertx;
 
     @BeforeClass
@@ -51,6 +51,34 @@ public class ItemDaoImplTest {
     @AfterClass
     public static void shutdown(TestContext context) {
         mongoManager.stop();
+    }
+
+    private static List<? extends JsonConvertable> getData() {
+        return Arrays.asList(
+                Item.builder()
+                        ._id("#01")
+                        .name("rice")
+                        .quantity(5)
+                        .unit("kg")
+                        .build(),
+                Item.builder()
+                        ._id("#02")
+                        .name("apple")
+                        .quantity(1)
+                        .build(),
+                Item.builder()
+                        ._id("#03")
+                        .name("pasta")
+                        .quantity(2)
+                        .unit("kg")
+                        .bestBefore(LocalDate.now().plusDays(20))
+                        .notification(
+                                Notification.builder()
+                                        .on(LocalDate.now().plusWeeks(2))
+                                        .repeatInterval(1)
+                                        .unit(DateUnit.DAY).build())
+                        .build()
+        );
     }
 
     @Test
@@ -66,33 +94,5 @@ public class ItemDaoImplTest {
             context.assertEquals(expected, result);
             async.complete();
         });
-    }
-    
-    private static List<? extends JsonConvertable> getData() {
-        return Arrays.asList(
-                Item.builder()
-                ._id("#01")
-                .name("rice")
-                .quantity(5)
-                .unit("kg")
-                .build(),
-                Item.builder()
-                ._id("#02")
-                .name("apple")
-                .quantity(1)
-                .build(),
-                Item.builder()
-                ._id("#03")
-                .name("pasta")
-                .quantity(2)
-                .unit("kg")
-                .bestBefore(LocalDate.now().plusDays(20))
-                .notification(
-                        Notification.builder()
-                        .on(LocalDate.now().plusWeeks(2))
-                        .repeatInterval(1)
-                        .unit(DateUnit.DAY).build())
-                .build()
-        );
     }
 }
