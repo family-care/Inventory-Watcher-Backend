@@ -52,10 +52,11 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
-        if(item.get_id()!=null){
+        if(item.get_id()!=null){//todo decide if this logic  belongs to the service or dao level and update tests in dao and service accordingly
             handler.handle(Future.failedFuture(ID_MUST_BE_NULL+item));
+        }else{
+            client.insert(COLLECTION, item.toJsonObject(), handler::handle);
         }
-        client.insert(COLLECTION, item.toJsonObject(), handler::handle);
     }
 
     @Override
