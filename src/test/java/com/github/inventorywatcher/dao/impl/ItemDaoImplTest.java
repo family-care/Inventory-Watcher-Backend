@@ -138,6 +138,26 @@ public class ItemDaoImplTest {
             });
         });
     }
+    
+    @Test
+    public void testCreateItemWithID(TestContext context) {
+        Item input = Item.builder()
+                ._id("this shouldn't be here")
+                .name("test")
+                .quantity(15)
+                .unit("kg")
+                .barcode("01024150")
+                .bestBefore(LocalDate.parse("2007-10-12"))
+                .notification(Notification.builder().on(LocalDate.parse("2010-05-12")).build())
+                .build();
+        Async async = context.async();
+        ItemDao dao = ItemDao.create(vertx, CONFIG);
+        dao.createItem(input, res -> {
+            context.assertFalse(res.succeeded());
+            context.assertTrue(res.cause().getMessage().startsWith(ItemDao.ID_MUST_BE_NULL));
+            async.complete();
+        });
+    }
 
     @Test
     public void testUpdateItem(TestContext context) {
@@ -178,7 +198,9 @@ public class ItemDaoImplTest {
                 dao.getItems(res4 -> {
                     context.assertTrue(res4.succeeded());
                     List<Item> items = res4.result();
-                    context.assertEquals(getData().size()-1, items.size());
+                    items.stream().forEach((item) -> {
+                        context.assertFalse(item.get_id().equals(id));
+                    });
                     async.countDown();
                 });
             });
