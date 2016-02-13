@@ -53,7 +53,9 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
-        
+        if(item.get_id()!=null){
+            handler.handle(Future.failedFuture("_id field must be null of "+item));
+        }
         client.insert(COLLECTION, item.toJsonObject(), handler::handle);
     }
 
