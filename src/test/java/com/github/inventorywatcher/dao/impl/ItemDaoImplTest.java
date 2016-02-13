@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.inventorytracker.dao.impl;
+package com.github.inventorywatcher.dao.impl;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.github.inventorytracker.MongoManager;
-import com.github.inventorytracker.dao.ItemDao;
-import com.github.inventorytracker.model.DateUnit;
-import com.github.inventorytracker.model.Item;
-import com.github.inventorytracker.model.JsonConvertable;
-import com.github.inventorytracker.model.Notification;
+import com.github.inventorywatcher.MongoManager;
+import com.github.inventorywatcher.dao.ItemDao;
+import com.github.inventorywatcher.model.DateUnit;
+import com.github.inventorywatcher.model.Item;
+import com.github.inventorywatcher.model.JsonConvertable;
+import com.github.inventorywatcher.model.Notification;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author joci
@@ -37,9 +36,9 @@ import java.util.stream.Collectors;
 @RunWith(VertxUnitRunner.class)
 public class ItemDaoImplTest {
 
-    private static int MONGO_PORT = 12345;
+    private static final int MONGO_PORT = 12345;
     private static MongoManager mongoManager;
-    private static JsonObject config = new JsonObject().put("host", "localhost").put("port", MONGO_PORT);
+    private static final JsonObject CONFIG = new JsonObject().put("host", "localhost").put("port", MONGO_PORT);
     private static Vertx vertx;
 
     @BeforeClass
@@ -57,7 +56,7 @@ public class ItemDaoImplTest {
     @Test
     public void testGetItems(TestContext context) {
         Async async = context.async();
-        ItemDao dao = ItemDao.create(vertx, config);
+        ItemDao dao = ItemDao.create(vertx, CONFIG);
         dao.getItems(res -> {
             context.assertTrue(res.succeeded());
             System.out.println(res.result());

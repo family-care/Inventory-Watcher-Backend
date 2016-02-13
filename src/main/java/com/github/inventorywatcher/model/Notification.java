@@ -1,4 +1,4 @@
-package com.github.inventorytracker.model;
+package com.github.inventorywatcher.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

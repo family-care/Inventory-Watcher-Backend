@@ -1,7 +1,7 @@
-package com.github.inventorytracker.dao.impl;
+package com.github.inventorywatcher.dao.impl;
 
-import com.github.inventorytracker.dao.ItemDao;
-import com.github.inventorytracker.model.Item;
+import com.github.inventorywatcher.dao.ItemDao;
+import com.github.inventorywatcher.model.Item;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ItemDaoImpl implements ItemDao {
     private final MongoClient client;
     private final Vertx vertx;
-
+//todo specify config object
     public ItemDaoImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;
         this.client = MongoClient.createShared(vertx, config);

@@ -1,4 +1,4 @@
-package com.github.inventorytracker.model;
+package com.github.inventorywatcher.model;
 
 import java.util.List;
 

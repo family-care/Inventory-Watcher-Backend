@@ -1,4 +1,4 @@
-package com.github.inventorytracker.verticle.util;
+package com.github.inventorywatcher.verticle.util;
 
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;

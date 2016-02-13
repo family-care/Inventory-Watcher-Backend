@@ -1,14 +1,14 @@
-package com.github.inventorytracker.dao;
+package com.github.inventorywatcher.dao;
 
-import com.github.inventorytracker.dao.impl.ItemDaoImpl;
-import com.github.inventorytracker.model.Item;
+import com.github.inventorywatcher.dao.impl.ItemDaoImpl;
+import com.github.inventorywatcher.model.Item;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
 import java.util.List;
-
+//todo specify config object
 public interface ItemDao {
     String COLLECTION = "items";
 

@@ -1,4 +1,4 @@
-package com.github.inventorytracker.model;
+package com.github.inventorywatcher.model;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.vertx.core.json.Json;

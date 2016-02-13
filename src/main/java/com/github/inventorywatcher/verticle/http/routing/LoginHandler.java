@@ -1,4 +1,4 @@
-package com.github.inventorytracker.verticle.http.routing;
+package com.github.inventorywatcher.verticle.http.routing;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;

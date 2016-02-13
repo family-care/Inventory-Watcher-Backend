@@ -1,7 +1,7 @@
-package com.github.inventorytracker.verticle;
+package com.github.inventorywatcher.verticle;
 
 
-import com.github.inventorytracker.verticle.util.Runner;
+import com.github.inventorywatcher.verticle.util.Runner;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;

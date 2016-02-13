@@ -1,8 +1,7 @@
-package com.github.inventorytracker;
+package com.github.inventorywatcher;
 
-import com.github.inventorytracker.dao.ItemDao;
-import com.github.inventorytracker.model.Item;
-import com.github.inventorytracker.model.JsonConvertable;
+import com.github.inventorywatcher.dao.ItemDao;
+import com.github.inventorywatcher.model.JsonConvertable;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
 import de.flapdoodle.embed.mongo.MongodStarter;
@@ -13,7 +12,6 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.EncodeException;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.unit.Async;

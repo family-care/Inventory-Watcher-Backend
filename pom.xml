@@ -11,7 +11,7 @@
 
     <properties>
         <!-- the main verticle -->
-        <main.verticle>com.github.inventorytracker.DeployVerticle</main.verticle>
+        <main.verticle>com.github.inventorywatcher.DeployVerticle</main.verticle>
     </properties>
 
     <dependencies>

@@ -1,4 +1,4 @@
-package com.github.inventorytracker.model;
+package com.github.inventorywatcher.model;
 
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
