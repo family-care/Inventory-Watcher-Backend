@@ -1,5 +1,6 @@
 /target/
 .vertx
 /nbproject/
-backend-vertx.iml
 .idea
+inventory-tracker-backend-vertx.iml
+backend-vertx.iml
