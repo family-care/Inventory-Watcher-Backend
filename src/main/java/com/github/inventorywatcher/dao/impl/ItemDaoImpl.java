@@ -53,14 +53,15 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
-        //todo new JsonObject(Json.encode(item)) to item.toJsonObject()
+        
         client.insert(COLLECTION, item.toJsonObject(), handler::handle);
     }
 
     @Override
     public void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler) {
-        JsonObject replacement = new JsonObject(Json.encode(item));
-        client.replace(COLLECTION, idObject(id), replacement, handler::handle);
+        client.replace(COLLECTION, idObject(id), item.toJsonObject(), res -> {
+            handler.handle(res);
+        });
     }
 
     @Override
