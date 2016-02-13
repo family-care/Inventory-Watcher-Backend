@@ -16,20 +16,20 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
+
 import java.io.IOException;
 import java.util.List;
 
 /**
- *
  * @author pjozsef
  */
 public class MongoManager {
 
-    private MongodProcess MONGO;
-    private int MONGO_PORT;
     private final Vertx vertx;
     private final List<? extends JsonConvertable> data;
     TestContext context;
+    private MongodProcess MONGO;
+    private int MONGO_PORT;
 
     public MongoManager(Vertx vertx, int MONGO_PORT, TestContext context, List<? extends JsonConvertable> data) throws IOException {
         this.MONGO_PORT = MONGO_PORT;
@@ -60,13 +60,11 @@ public class MongoManager {
         MongoClient mongoClient = MongoClient.createShared(vertx, config);
 
         data.stream()
-                .map((item) -> item.toJsonObject())
-                .forEach((json) -> {
-                    mongoClient.insert(
-                            ItemDao.COLLECTION,
-                            json,
-                            res -> async.countDown());
-                });
+                .map(JsonConvertable::toJsonObject)
+                .forEach((json) -> mongoClient.insert(
+                        ItemDao.COLLECTION,
+                        json,
+                        res -> async.countDown()));
         async.await();
         mongoClient.close();
     }
