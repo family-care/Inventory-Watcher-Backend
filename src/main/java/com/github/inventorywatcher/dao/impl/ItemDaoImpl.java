@@ -6,7 +6,6 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 
@@ -42,7 +41,7 @@ public class ItemDaoImpl implements ItemDao {
                 if(res.result()!=null){
                     handler.handle(transformResult(res, Item::new));
                 }else{
-                    handler.handle(Future.failedFuture("No item found with ID: "+id));
+                    handler.handle(Future.failedFuture(NO_ITEM_FOUND_WITH_ID+id));
                 }
             }else{
                 handler.handle(Future.failedFuture(res.cause()));
@@ -54,7 +53,7 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
         if(item.get_id()!=null){
-            handler.handle(Future.failedFuture("_id field must be null of "+item));
+            handler.handle(Future.failedFuture(ID_MUST_BE_NULL+item));
         }
         client.insert(COLLECTION, item.toJsonObject(), handler::handle);
     }

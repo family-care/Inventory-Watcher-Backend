@@ -11,6 +11,8 @@ import java.util.List;
 //todo specify config object
 public interface ItemDao {
     String COLLECTION = "items";
+    String ID_MUST_BE_NULL = "_id field must be null of ";
+    String NO_ITEM_FOUND_WITH_ID = "No item found with ID: ";
 
     static ItemDao create(Vertx vertx, JsonObject config) {
         return new ItemDaoImpl(vertx, config);
