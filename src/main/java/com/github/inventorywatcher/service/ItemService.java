@@ -8,15 +8,15 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.serviceproxy.ProxyHelper;
+
 import java.util.List;
 
 /**
- *
  * @author pjozsef
  */
 @ProxyGen
 public interface ItemService {
-//todo specify config object
+    //todo specify config object
     static ItemService create(Vertx vertx, JsonObject config) {
         return new ItemServiceImpl(vertx, config);
     }
