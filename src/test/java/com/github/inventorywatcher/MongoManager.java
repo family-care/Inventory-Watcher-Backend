@@ -38,7 +38,7 @@ public class MongoManager {
         this.data = data;
 
         start();
-        if (data.size() > 0) {
+        if (data != null && data.size() > 0) {
             initDB();
         }
     }
