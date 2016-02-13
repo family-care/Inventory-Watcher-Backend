@@ -43,8 +43,8 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
-        String str = Json.encode(item);
-        client.insert(COLLECTION, new JsonObject(Json.encode(item)), handler::handle);
+        //todo new JsonObject(Json.encode(item)) to item.toJsonObject()
+        client.insert(COLLECTION, item.toJsonObject(), handler::handle);
     }
 
     @Override
