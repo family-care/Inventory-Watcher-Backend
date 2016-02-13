@@ -16,6 +16,7 @@ import java.util.List;
  */
 @ProxyGen
 public interface ItemService {
+    String ADDRESS = "com.github.inventorywatcher.service.ItemService.EventBusAddress";
     //todo specify config object
     static ItemService create(Vertx vertx, JsonObject config) {
         return new ItemServiceImpl(vertx, config);

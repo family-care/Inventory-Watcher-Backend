@@ -20,7 +20,7 @@ public class ItemVerticle extends AbstractVerticle{
                     vertx,
                     new JsonObject().put("host", "localhost").put("port", 2500)
             );
-            ProxyHelper.registerService(ItemService.class, vertx, itemService, "database-service-address");
+            ProxyHelper.registerService(ItemService.class, vertx, itemService, ItemService.ADDRESS);
         });
     }
 
