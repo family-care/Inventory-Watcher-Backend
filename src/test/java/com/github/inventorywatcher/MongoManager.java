@@ -36,9 +36,11 @@ public class MongoManager {
         this.vertx = vertx;
         this.context = context;
         this.data = data;
-        
+
         start();
-        initDB();
+        if (data.size() > 0) {
+            initDB();
+        }
     }
 
     private void start() throws IOException {
