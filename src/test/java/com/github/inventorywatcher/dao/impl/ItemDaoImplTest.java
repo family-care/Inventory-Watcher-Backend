@@ -7,6 +7,7 @@ package com.github.inventorywatcher.dao.impl;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.inventorywatcher.MongoManager;
+import com.github.inventorywatcher.PortProvider;
 import com.github.inventorywatcher.dao.ItemDao;
 import com.github.inventorywatcher.model.DateUnit;
 import com.github.inventorywatcher.model.Item;
@@ -36,7 +37,7 @@ import java.util.Set;
 @RunWith(VertxUnitRunner.class)
 public class ItemDaoImplTest {
 
-    private static final int MONGO_PORT = 12345;
+    private static final int MONGO_PORT = PortProvider.getNextPort();
     private static final JsonObject CONFIG = new JsonObject().put("host", "localhost").put("port", MONGO_PORT);
     private static MongoManager mongoManager;
     private static Vertx vertx;
@@ -56,28 +57,28 @@ public class ItemDaoImplTest {
     private static List<? extends JsonConvertable> getData() {
         return Arrays.asList(
                 Item.builder()
-                        ._id("#01")
-                        .name("rice")
-                        .quantity(5)
-                        .unit("kg")
-                        .build(),
+                ._id("#01")
+                .name("rice")
+                .quantity(5)
+                .unit("kg")
+                .build(),
                 Item.builder()
-                        ._id("#02")
-                        .name("apple")
-                        .quantity(1)
-                        .build(),
+                ._id("#02")
+                .name("apple")
+                .quantity(1)
+                .build(),
                 Item.builder()
-                        ._id("#03")
-                        .name("pasta")
-                        .quantity(2)
-                        .unit("kg")
-                        .bestBefore(LocalDate.now().plusDays(20))
-                        .notification(
-                                Notification.builder()
-                                        .on(LocalDate.now().plusWeeks(2))
-                                        .repeatInterval(1)
-                                        .unit(DateUnit.DAY).build())
-                        .build()
+                ._id("#03")
+                .name("pasta")
+                .quantity(2)
+                .unit("kg")
+                .bestBefore(LocalDate.now().plusDays(20))
+                .notification(
+                        Notification.builder()
+                        .on(LocalDate.now().plusWeeks(2))
+                        .repeatInterval(1)
+                        .unit(DateUnit.DAY).build())
+                .build()
         );
     }
 
@@ -87,12 +88,100 @@ public class ItemDaoImplTest {
         ItemDao dao = ItemDao.create(vertx, CONFIG);
         dao.getItems(res -> {
             context.assertTrue(res.succeeded());
-            System.out.println(res.result());
-            Set<Item> expected = new HashSet(getData());
-            Set<Item> result = new HashSet(res.result());
+            Set<JsonConvertable> expected = new HashSet<>(getData());
+            Set<JsonConvertable> result = new HashSet<>(res.result());
             context.assertEquals(expected.size(), result.size());
             context.assertEquals(expected, result);
             async.complete();
+        });
+    }
+
+    @Test
+    public void testGetItem(TestContext context) {
+        Async async = context.async();
+        ItemDao dao = ItemDao.create(vertx, CONFIG);
+        dao.getItem("#01", res -> {
+            context.assertTrue(res.succeeded());
+            Item expected = Item.builder()
+                    ._id("#01")
+                    .name("rice")
+                    .quantity(5)
+                    .unit("kg")
+                    .build();
+            Item test = res.result();
+            context.assertEquals(expected, test);
+            async.complete();
+        });
+    }
+
+    @Test
+    public void testCreateItem(TestContext context) {
+        Item expected = Item.builder()
+                .name("test")
+                .quantity(15)
+                .unit("kg")
+                .barcode("01024150")
+                .bestBefore(LocalDate.parse("2007-10-12"))
+                .notification(Notification.builder().on(LocalDate.parse("2010-05-12")).build())
+                .build();
+        Async async = context.async();
+        ItemDao dao = ItemDao.create(vertx, CONFIG);
+        dao.createItem(expected, res -> {
+            context.assertTrue(res.succeeded());
+            String id = res.result();
+            dao.getItem(id, res2 -> {
+                context.assertTrue(res2.succeeded());
+                Item test = res2.result();
+                expected.set_id(id);
+                context.assertEquals(expected, test);
+                async.complete();
+            });
+        });
+    }
+
+    @Test
+    public void testUpdateItem(TestContext context) {
+        String id = "#02";
+        String newName = "newname, different than the previous";
+        Async async = context.async();
+        ItemDao dao = ItemDao.create(vertx, CONFIG);
+        dao.getItem(id, res -> {
+            context.assertTrue(res.succeeded());
+            Item expected = res.result();
+            expected.setName(newName);
+            dao.updateItem(id, expected, res2 -> {
+                context.assertTrue(res2.succeeded());
+                dao.getItem(id, res3 -> {
+                    context.assertTrue(res3.succeeded());
+                    Item test = res3.result();
+                    context.assertEquals(newName, test.getName());
+                    context.assertEquals(expected, test);
+                    async.complete();
+                });
+            });
+        });
+    }
+
+    @Test
+    public void testRemoveItem(TestContext context) {
+        String id = "#03";
+        Async async = context.async(2);
+        ItemDao dao = ItemDao.create(vertx, CONFIG);
+        dao.getItem(id, res -> {
+            context.assertTrue(res.succeeded());
+            dao.removeItem(id, res2 -> {
+                context.assertTrue(res2.succeeded());
+                dao.getItem(id, res3 -> {
+                    context.assertFalse(res3.succeeded());
+                    async.countDown();
+                });
+                dao.getItems(res4 -> {
+                    context.assertTrue(res4.succeeded());
+                    List<Item> items = res4.result();
+                    context.assertEquals(getData().size()-1, items.size());
+                    async.countDown();
+                });
+            });
         });
     }
 }

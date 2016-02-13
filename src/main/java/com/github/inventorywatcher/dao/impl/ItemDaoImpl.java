@@ -3,6 +3,7 @@ package com.github.inventorywatcher.dao.impl;
 import com.github.inventorywatcher.dao.ItemDao;
 import com.github.inventorywatcher.model.Item;
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
@@ -14,9 +15,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ItemDaoImpl implements ItemDao {
+
     private final MongoClient client;
     private final Vertx vertx;
 //todo specify config object
+
     public ItemDaoImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;
         this.client = MongoClient.createShared(vertx, config);
@@ -24,20 +27,27 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public void getItems(Handler<AsyncResult<List<Item>>> handler) {
-        client.find(COLLECTION, new JsonObject(), res ->
-                handler.handle(
-                        transformResult(res, jsons ->
-                                jsons.stream().map(Item::new).collect(Collectors.toList()))
+        client.find(COLLECTION, new JsonObject(), res
+                -> handler.handle(
+                        transformResult(res, jsons
+                                -> jsons.stream().map(Item::new).collect(Collectors.toList()))
                 )
         );
     }
 
     @Override
     public void getItem(String id, Handler<AsyncResult<Item>> handler) {
-        client.findOne(COLLECTION, idObject(id), new JsonObject(), res ->
-                handler.handle(
-                        transformResult(res, Item::new)
-                )
+        client.findOne(COLLECTION, idObject(id), new JsonObject(), res -> {
+            if(res.succeeded()){
+                if(res.result()!=null){
+                    handler.handle(transformResult(res, Item::new));
+                }else{
+                    handler.handle(Future.failedFuture("No item found with ID: "+id));
+                }
+            }else{
+                handler.handle(Future.failedFuture(res.cause()));
+            }
+        }
         );
     }
 
