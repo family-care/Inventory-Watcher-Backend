@@ -1,5 +1,6 @@
-package com.github.inventorywatcher.dao;
+package com.github.inventorywatcher.util;
 
+import com.github.inventorywatcher.dao.ItemDao;
 import com.github.inventorywatcher.model.JsonConvertable;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodProcess;
