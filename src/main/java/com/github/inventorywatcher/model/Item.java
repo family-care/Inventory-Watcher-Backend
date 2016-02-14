@@ -2,6 +2,7 @@ package com.github.inventorywatcher.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.vertx.codegen.annotations.DataObject;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
@@ -19,6 +20,10 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class Item implements Validatable, JsonConvertable{
     public static final String NAME_MUST_NOT_BE_NULL = "Name must not be null!";
+
+    static {
+        Json.mapper.registerModule(new JavaTimeModule());
+    }
     
     String _id;
     String name;
