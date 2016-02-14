@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @DataObject
 @JsonInclude(Include.NON_NULL)
-public class Item implements Validatable, JsonConvertable {
+public class ItemStuff implements Validatable, JsonConvertable {
 
     public static final String NAME_MUST_NOT_BE_NULL = "Name must not be null!";
 
@@ -31,11 +31,11 @@ public class Item implements Validatable, JsonConvertable {
     private List<String> tags;
     private Notification notification;
 
-    public Item() {
+    public ItemStuff() {
 
     }
 
-    public Item(String _id, String name, String barcode, double quantity, String unit, LocalDate bestBefore, List<String> tags, Notification notification) {
+    public ItemStuff(String _id, String name, String barcode, double quantity, String unit, LocalDate bestBefore, List<String> tags, Notification notification) {
         this._id = _id;
         this.name = name;
         this.barcode = barcode;
@@ -46,16 +46,16 @@ public class Item implements Validatable, JsonConvertable {
         this.notification = notification;
     }
 
-    public Item(Item item) {
+    public ItemStuff(ItemStuff item) {
         this(item._id, item.name, item.barcode, item.quantity, item.unit, item.bestBefore, item.tags, item.notification);
     }
 
-    public Item(JsonObject json) {
-        this(Json.decodeValue(json.encode(), Item.class));
+    public ItemStuff(JsonObject json) {
+        this(Json.decodeValue(json.encode(), ItemStuff.class));
     }
 
-    public Item(String json) {
-        this(Json.decodeValue(json, Item.class));
+    public ItemStuff(String json) {
+        this(Json.decodeValue(json, ItemStuff.class));
     }
 
     public String get_id() {
@@ -147,7 +147,7 @@ public class Item implements Validatable, JsonConvertable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Item other = (Item) obj;
+        final ItemStuff other = (ItemStuff) obj;
         if (Double.doubleToLongBits(this.quantity) != Double.doubleToLongBits(other.quantity)) {
             return false;
         }
@@ -179,8 +179,7 @@ public class Item implements Validatable, JsonConvertable {
     public String toString() {
         return "Item{" + "_id=" + _id + ", name=" + name + ", barcode=" + barcode + ", quantity=" + quantity + ", unit=" + unit + ", bestBefore=" + bestBefore + ", tags=" + tags + ", notification=" + notification + '}';
     }
-    
-    
+
 
     @Override
     public List<String> validate() {
