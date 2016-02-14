@@ -63,7 +63,7 @@ public class EmbeddedMongo {
 
         try {
             data.stream()
-                    .map(JsonConvertable::toJsonObject)
+                    .map(JsonConvertable::toJson)
                     .forEach((json) -> mongoClient.insert(
                             ItemDao.COLLECTION,
                             json,

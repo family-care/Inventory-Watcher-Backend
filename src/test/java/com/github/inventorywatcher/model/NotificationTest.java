@@ -22,12 +22,7 @@ public class NotificationTest {
 
     @Test
     public void testPojoToString() {
-        String test = Json.encode(
-                Notification.builder()
-                .on(LocalDate.parse("2007-12-03"))
-                .repeatInterval(3)
-                .unit(DateUnit.DAY)
-                .build());
+        String test = Json.encode(new Notification(LocalDate.parse("2007-12-03"), 3, DateUnit.DAY));
         String expected = new JsonObject()
                 .put("on", new JsonArray("[2007,12,3]"))
                 .put("repeatInterval", 3)
@@ -45,11 +40,7 @@ public class NotificationTest {
                 .put("unit", "DAY")
                 .encode(),
                 Notification.class);
-        Notification expected = Notification.builder()
-                .on(LocalDate.parse("2007-12-03"))
-                .repeatInterval(3)
-                .unit(DateUnit.DAY)
-                .build();
+        Notification expected = new Notification(LocalDate.parse("2007-12-03"), 3, DateUnit.DAY);
         assertEquals(expected, test);
     }
 
@@ -61,31 +52,20 @@ public class NotificationTest {
                 .put("repeatInterval", 3)
                 .put("unit", "DAY")
         );
-        Notification expected = Notification.builder()
-                .on(LocalDate.parse("2007-12-03"))
-                .repeatInterval(3)
-                .unit(DateUnit.DAY)
-                .build();
+        Notification expected = new Notification(LocalDate.parse("2007-12-03"), 3, DateUnit.DAY);
         assertEquals(expected, test);
     }
 
     @Test
     public void testValidateValidItem() {
-        Notification input = Notification.builder()
-                .on(LocalDate.parse("2007-12-03"))
-                .repeatInterval(3)
-                .unit(DateUnit.DAY)
-                .build();
+        Notification input = new Notification(LocalDate.parse("2007-12-03"), 3, DateUnit.DAY);
         List<String> errors = input.validate();
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testValidateInvalidItem() {
-        Notification input = Notification.builder()
-                .repeatInterval(3)
-                .unit(DateUnit.DAY)
-                .build();
+        Notification input = new Notification(null, 3, DateUnit.DAY);
         List<String> errors = input.validate();
         assertEquals(1, errors.size());
         assertTrue(errors.contains(Notification.ON_MUST_NOT_BE_NULL));
@@ -93,12 +73,8 @@ public class NotificationTest {
     
     @Test
     public void testJsonConvertable(){
-        Notification expected = Notification.builder()
-                .on(LocalDate.parse("2007-12-03"))
-                .repeatInterval(3)
-                .unit(DateUnit.DAY)
-                .build();
-        String json =  expected.toJson();
+        Notification expected = new Notification(LocalDate.parse("2007-12-03"), 3, DateUnit.DAY);
+        String json =  expected.toJsonString();
         Notification test = new Notification(json);
         assertEquals(expected, test);
     }

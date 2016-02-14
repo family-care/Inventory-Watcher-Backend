@@ -5,11 +5,11 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ItemTest {
@@ -34,12 +34,7 @@ public class ItemTest {
 
     @Test
     public void testPojoToString() {
-        String test = Json.encode(
-                Item.builder()
-                .name("AAA")
-                .quantity(20)
-                .unit("kg")
-                .build());
+        String test = Json.encode(new Item(null, "AAA", null, 20, "kg", null, new ArrayList<String>(), null));
         String expected = new JsonObject()
                 .put("name", "AAA")
                 .put("quantity", 20.0)
@@ -51,19 +46,7 @@ public class ItemTest {
 
     @Test
     public void testPojoToStringWithNotification() {
-        String test = Json.encode(
-                Item.builder()
-                .name("AAA")
-                .barcode("012345")
-                .quantity(20)
-                .unit("kg")
-                .notification(
-                        Notification.builder()
-                        .on(LocalDate.parse("2007-12-03"))
-                        .repeatInterval(2)
-                        .unit(DateUnit.DAY)
-                        .build())
-                .build());
+        String test = Json.encode(new Item(null, "AAA", "012345", 20, "kg", null, new ArrayList<String>(), new Notification(LocalDate.parse("2007-12-03"), 2, DateUnit.DAY)));
         String expected = new JsonObject()
                 .put("name", "AAA")
                 .put("barcode", "012345")
@@ -89,11 +72,7 @@ public class ItemTest {
                 .put("tags", new JsonArray())
                 .encode(),
                 Item.class);
-        Item expected = Item.builder()
-                .name("AAA")
-                .quantity(20)
-                .unit("kg")
-                .build();
+        Item expected = new Item(null, "AAA", null, 20, "kg", null, new ArrayList<String>(), null);
         assertEquals(expected, test);
     }
 
@@ -112,17 +91,7 @@ public class ItemTest {
                         .put("unit", "DAY"))
                 .encode(),
                 Item.class);
-        Item expected = Item.builder()
-                .name("AAA")
-                .quantity(20)
-                .unit("kg")
-                .notification(
-                        Notification.builder()
-                        .on(LocalDate.parse("2007-12-03"))
-                        .repeatInterval(2)
-                        .unit(DateUnit.DAY)
-                        .build())
-                .build();
+        Item expected = new Item(null, "AAA", null, 20, "kg", null, new ArrayList<String>(), new Notification(LocalDate.parse("2007-12-03"), 2, DateUnit.DAY));
         assertEquals(expected, test);
     }
 
@@ -135,43 +104,29 @@ public class ItemTest {
                 .put("unit", "kg")
                 .put("tags", new JsonArray())
         );
-        Item expected = Item.builder()
-                .name("AAA")
-                .quantity(20)
-                .unit("kg")
-                .build();
+        Item expected = new Item(null, "AAA", null, 20, "kg", null, new ArrayList<String>(), null);
         assertEquals(expected, test);
     }
 
     @Test
     public void testValidateValidItem() {
-        Item input = Item.builder().name("AAA").barcode("012345").build();
+        Item input = new Item(null, "AAA", "012345", 0, null, null, null, null);
         List<String> errors = input.validate();
         assertTrue(errors.isEmpty());
     }
-    
+
     @Test
-    public void testValidateInvalidItem(){
+    public void testValidateInvalidItem() {
         Item input = new Item();
         List<String> errors = input.validate();
         assertEquals(1, errors.size());
         assertTrue(errors.contains(Item.NAME_MUST_NOT_BE_NULL));
     }
-    
+
     @Test
-    public void testJsonConvertable(){
-        Item expected = Item.builder()
-                .name("AAA")
-                .quantity(20)
-                .unit("kg")
-                .notification(
-                        Notification.builder()
-                        .on(LocalDate.parse("2007-12-03"))
-                        .repeatInterval(2)
-                        .unit(DateUnit.DAY)
-                        .build())
-                .build();
-        String json = expected.toJson();
+    public void testJsonConvertable() {
+        Item expected = new Item(null, "AAA", "012345", 20, "kg", null, null, new Notification(LocalDate.parse("2007-12-03"), 2, DateUnit.DAY));
+        String json = expected.toJsonString();
         Item test = new Item(json);
         assertEquals(expected, test);
     }

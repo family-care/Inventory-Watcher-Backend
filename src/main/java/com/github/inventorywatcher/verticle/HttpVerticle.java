@@ -22,7 +22,7 @@ public class HttpVerticle extends AbstractVerticle {
         HttpServer server = vertx.createHttpServer();
         Router router = Router.router(vertx);
 
-        router.route("get").handler(cb -> {
+        router.route("/get").handler(cb -> {
             HttpServerResponse response = cb.response();
             itemService.getItems(res ->{
                 if(res.succeeded()){
@@ -33,21 +33,21 @@ public class HttpVerticle extends AbstractVerticle {
             });
         });
 
-        router.route("get/:id").handler(ctx -> {
+        router.route("/get/:id").handler(ctx -> {
             HttpServerResponse res = ctx.response();
             HttpServerRequest req = ctx.request();
             itemService.getItem(req.getParam("id"), cb -> {
                 if(cb.succeeded()){
-                    res.end(cb.result().toJson());
+                    res.end(cb.result().toJsonString());
                 }else{
                     res.end(cb.cause().getMessage());
                 }
             });
         });
 
-        router.route("add").handler(ctx -> {
+        router.route("/add").handler(ctx -> {
             HttpServerResponse res = ctx.response();
-            Item item = Item.builder().name("dummy").quantity(Math.random()*200).build();
+            Item item = new Item(null, "dummy", null, Math.random()*200, null, null, null, null);
             itemService.createItem(item, cb -> {
                 if(cb.succeeded()){
                     res.end(cb.result());
@@ -57,7 +57,7 @@ public class HttpVerticle extends AbstractVerticle {
             });
         });
 
-        router.route("remove/:id").handler(ctx -> {
+        router.route("/remove/:id").handler(ctx -> {
             HttpServerResponse res = ctx.response();
             String id = ctx.request().getParam("id");
             itemService.removeItem(id, cb -> {

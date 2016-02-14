@@ -60,7 +60,7 @@ public class MongoManager {
         MongoClient mongoClient = MongoClient.createShared(vertx, config);
 
         data.stream()
-                .map(JsonConvertable::toJsonObject)
+                .map(JsonConvertable::toJson)
                 .forEach((json) -> mongoClient.insert(
                         ItemDao.COLLECTION,
                         json,

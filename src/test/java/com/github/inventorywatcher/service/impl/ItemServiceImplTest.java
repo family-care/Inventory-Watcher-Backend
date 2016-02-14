@@ -84,12 +84,7 @@ public class ItemServiceImplTest {
         String id = "#01";
         service.getItem(id, res -> {
             context.assertTrue(res.succeeded());
-            Item expected = Item.builder()
-                    ._id("#01")
-                    .name("rice")
-                    .quantity(5)
-                    .unit("kg")
-                    .build();
+            Item expected = new Item("#01", "rice", null, 5, "kg", null, null, null);
             Item test = res.result();
             context.assertEquals(expected, test);
             async.complete();
@@ -101,14 +96,7 @@ public class ItemServiceImplTest {
      */
     @Test
     public void testCreateItem(TestContext context) {
-        Item expected = Item.builder()
-                .name("test")
-                .quantity(15)
-                .unit("kg")
-                .barcode("01024150")
-                .bestBefore(LocalDate.parse("2007-10-12"))
-                .notification(Notification.builder().on(LocalDate.parse("2010-05-12")).build())
-                .build();
+        Item expected = new Item(null, "test", "01024150", 15, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
         Async async = context.async();
         service.createItem(expected, res -> {
             context.assertTrue(res.succeeded());
@@ -125,15 +113,7 @@ public class ItemServiceImplTest {
 
     @Test
     public void testCreateItemWithID(TestContext context) {
-        Item input = Item.builder()
-                ._id("this shouldn't be here")
-                .name("test")
-                .quantity(15)
-                .unit("kg")
-                .barcode("01024150")
-                .bestBefore(LocalDate.parse("2007-10-12"))
-                .notification(Notification.builder().on(LocalDate.parse("2010-05-12")).build())
-                .build();
+        Item input = new Item("this shouldn't be here", "test", "01024150", 15, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
         Async async = context.async();
         service.createItem(input, res -> {
             context.assertFalse(res.succeeded());
@@ -196,29 +176,9 @@ public class ItemServiceImplTest {
 
     private static List<? extends JsonConvertable> getData() {
         return Arrays.asList(
-                Item.builder()
-                ._id("#01")
-                .name("rice")
-                .quantity(5)
-                .unit("kg")
-                .build(),
-                Item.builder()
-                ._id("#02")
-                .name("apple")
-                .quantity(1)
-                .build(),
-                Item.builder()
-                ._id("#03")
-                .name("pasta")
-                .quantity(2)
-                .unit("kg")
-                .bestBefore(LocalDate.now().plusDays(20))
-                .notification(
-                        Notification.builder()
-                        .on(LocalDate.now().plusWeeks(2))
-                        .repeatInterval(1)
-                        .unit(DateUnit.DAY).build())
-                .build()
+                new Item("#01", "rice", null, 5, "kg", null, null, null),
+                new Item("#02", "apple", null, 1, null, null, null, null),
+                new Item("#03", "pasta", null, 2, "kg", LocalDate.now().plusDays(20), null, new Notification(LocalDate.now().plusWeeks(2), 1, DateUnit.DAY))
         );
     }
 }
