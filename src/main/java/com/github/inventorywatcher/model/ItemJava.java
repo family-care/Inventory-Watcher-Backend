@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @DataObject
 @JsonInclude(Include.NON_NULL)
-public class ItemStuff implements Validatable, JsonConvertable {
+public class ItemJava implements Validatable, JsonConvertable {
 
     public static final String NAME_MUST_NOT_BE_NULL = "Name must not be null!";
 
@@ -31,11 +31,11 @@ public class ItemStuff implements Validatable, JsonConvertable {
     private List<String> tags;
     private Notification notification;
 
-    public ItemStuff() {
+    public ItemJava() {
 
     }
 
-    public ItemStuff(String _id, String name, String barcode, double quantity, String unit, LocalDate bestBefore, List<String> tags, Notification notification) {
+    public ItemJava(String _id, String name, String barcode, double quantity, String unit, LocalDate bestBefore, List<String> tags, Notification notification) {
         this._id = _id;
         this.name = name;
         this.barcode = barcode;
@@ -46,16 +46,16 @@ public class ItemStuff implements Validatable, JsonConvertable {
         this.notification = notification;
     }
 
-    public ItemStuff(ItemStuff item) {
-        this(item._id, item.name, item.barcode, item.quantity, item.unit, item.bestBefore, item.tags, item.notification);
+    public ItemJava(ItemJava itemJava) {
+        this(itemJava._id, itemJava.name, itemJava.barcode, itemJava.quantity, itemJava.unit, itemJava.bestBefore, itemJava.tags, itemJava.notification);
     }
 
-    public ItemStuff(JsonObject json) {
-        this(Json.decodeValue(json.encode(), ItemStuff.class));
+    public ItemJava(JsonObject json) {
+        this(Json.decodeValue(json.encode(), ItemJava.class));
     }
 
-    public ItemStuff(String json) {
-        this(Json.decodeValue(json, ItemStuff.class));
+    public ItemJava(String json) {
+        this(Json.decodeValue(json, ItemJava.class));
     }
 
     public String get_id() {
@@ -147,7 +147,7 @@ public class ItemStuff implements Validatable, JsonConvertable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemStuff other = (ItemStuff) obj;
+        final ItemJava other = (ItemJava) obj;
         if (Double.doubleToLongBits(this.quantity) != Double.doubleToLongBits(other.quantity)) {
             return false;
         }
@@ -177,9 +177,10 @@ public class ItemStuff implements Validatable, JsonConvertable {
 
     @Override
     public String toString() {
-        return "Item{" + "_id=" + _id + ", name=" + name + ", barcode=" + barcode + ", quantity=" + quantity + ", unit=" + unit + ", bestBefore=" + bestBefore + ", tags=" + tags + ", notification=" + notification + '}';
+        return "ItemJava{" + "_id=" + _id + ", name=" + name + ", barcode=" + barcode + ", quantity=" + quantity + ", unit=" + unit + ", bestBefore=" + bestBefore + ", tags=" + tags + ", notification=" + notification + '}';
     }
-
+    
+    
 
     @Override
     public List<String> validate() {
