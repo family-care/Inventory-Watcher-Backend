@@ -23,14 +23,18 @@ data class Item constructor(
         var tags: ArrayList<String>?,
         var notification: Notification?) : Validatable, JsonConvertable {
 
-    val NAME_MUST_NOT_BE_NULL = "Name must not be null!"
+    companion object Message{
+        val NAME_MUST_NOT_BE_NULL = "Name must not be null!"
+    }
 
+    constructor() : this(null,null,null,null,null,null,null,null)
 
     constructor(item: Item) : this(item._id, item.name, item.barcode, item.quantity, item.unit, item.bestBefore, item.tags, item.notification)
 
     constructor(json: JsonObject) : this(Json.decodeValue(json.encode(), Item::class.java))
 
     constructor(json: String) : this(Json.decodeValue(json, Item::class.java))
+
 
     override fun validate(): List<String> {
         val errors = ArrayList<String>()

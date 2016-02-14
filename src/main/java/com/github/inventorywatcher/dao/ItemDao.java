@@ -9,6 +9,8 @@ import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 //todo specify config object
+// todo use kotlin Item instead of java version
+
 public interface ItemDao {
     String COLLECTION = "items";
     String ID_MUST_BE_NULL = "_id field must be null of ";

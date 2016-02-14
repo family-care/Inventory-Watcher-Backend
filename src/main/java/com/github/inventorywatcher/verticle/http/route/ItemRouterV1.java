@@ -18,6 +18,7 @@ public class ItemRouterV1 {
         this.vertx = vertx;
         itemService = ProxyHelper.createProxy(ItemService.class, vertx, ItemService.ADDRESS);
     }
+    //todo use kotlin Item instead of java version
 
     public Router get() {
         final Router sub = Router.router(vertx);

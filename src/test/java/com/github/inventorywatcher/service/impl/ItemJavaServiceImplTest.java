@@ -30,6 +30,7 @@ import java.util.Set;
  */
 @RunWith(VertxUnitRunner.class)
 public class ItemJavaServiceImplTest {
+    //todo use kotlin Item instead of java version
 
     private static final int MONGO_PORT = PortProvider.getNextPort();
     private static final JsonObject CONFIG = new JsonObject().put("host", "localhost").put("port", MONGO_PORT);

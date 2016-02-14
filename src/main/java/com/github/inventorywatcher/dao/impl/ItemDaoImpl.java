@@ -18,6 +18,7 @@ public class ItemDaoImpl implements ItemDao {
     private final MongoClient client;
     private final Vertx vertx;
 //todo specify config object
+    //todo use kotlin Item instead of java version
 
     public ItemDaoImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;

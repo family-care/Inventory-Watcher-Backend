@@ -19,6 +19,7 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     private final Vertx vertx;
     private final ItemDao dao;
+    //todo use kotlin Item instead of java version
 
     //todo specify config object
     public ItemServiceImpl(Vertx vertx, JsonObject config) {

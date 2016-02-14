@@ -21,6 +21,7 @@ public interface ItemService {
     static ItemService create(Vertx vertx, JsonObject config) {
         return new ItemServiceImpl(vertx, config);
     }
+    //todo use kotlin Item instead of java version
 
     static ItemService createProxy(Vertx vertx, String address) {
         return ProxyHelper.createProxy(ItemService.class, vertx, address);
