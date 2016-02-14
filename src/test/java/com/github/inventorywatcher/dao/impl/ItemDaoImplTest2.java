@@ -9,7 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.inventorywatcher.MongoManager;
 import com.github.inventorywatcher.PortProvider;
 import com.github.inventorywatcher.dao.ItemDao;
-import com.github.inventorywatcher.model.Item;
+import com.github.inventorywatcher.model.ItemJava;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
@@ -55,8 +55,8 @@ public class ItemDaoImplTest2 {
         ItemDao dao = ItemDao.create(vertx, CONFIG);
         dao.getItems(res -> {
             context.assertTrue(res.succeeded());
-            List<Item> expected = new ArrayList<>();
-            List<Item> result = res.result();
+            List<ItemJava> expected = new ArrayList<>();
+            List<ItemJava> result = res.result();
             context.assertEquals(expected.size(), result.size());
             context.assertEquals(expected, result);
             async.complete();

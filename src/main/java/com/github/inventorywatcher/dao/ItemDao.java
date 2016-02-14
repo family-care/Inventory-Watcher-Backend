@@ -1,7 +1,7 @@
 package com.github.inventorywatcher.dao;
 
 import com.github.inventorywatcher.dao.impl.ItemDaoImpl;
-import com.github.inventorywatcher.model.Item;
+import com.github.inventorywatcher.model.ItemJava;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -18,13 +18,13 @@ public interface ItemDao {
         return new ItemDaoImpl(vertx, config);
     }
 
-    void getItems(Handler<AsyncResult<List<Item>>> handler);
+    void getItems(Handler<AsyncResult<List<ItemJava>>> handler);
 
-    void getItem(String id, Handler<AsyncResult<Item>> handler);
+    void getItem(String id, Handler<AsyncResult<ItemJava>> handler);
 
-    void createItem(Item item, Handler<AsyncResult<String>> handler);
+    void createItem(ItemJava itemJava, Handler<AsyncResult<String>> handler);
 
-    void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler);
+    void updateItem(String id, ItemJava itemJava, Handler<AsyncResult<Void>> handler);
 
     void removeItem(String id, Handler<AsyncResult<Void>> handler);
 }

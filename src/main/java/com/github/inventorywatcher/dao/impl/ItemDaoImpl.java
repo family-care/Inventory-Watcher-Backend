@@ -1,7 +1,7 @@
 package com.github.inventorywatcher.dao.impl;
 
 import com.github.inventorywatcher.dao.ItemDao;
-import com.github.inventorywatcher.model.Item;
+import com.github.inventorywatcher.model.ItemJava;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -25,21 +25,21 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void getItems(Handler<AsyncResult<List<Item>>> handler) {
+    public void getItems(Handler<AsyncResult<List<ItemJava>>> handler) {
         client.find(COLLECTION, new JsonObject(), res
                 -> handler.handle(
                         transformResult(res, jsons
-                                -> jsons.stream().map(Item::new).collect(Collectors.toList()))
+                                -> jsons.stream().map(ItemJava::new).collect(Collectors.toList()))
                 )
         );
     }
 
     @Override
-    public void getItem(String id, Handler<AsyncResult<Item>> handler) {
+    public void getItem(String id, Handler<AsyncResult<ItemJava>> handler) {
         client.findOne(COLLECTION, idObject(id), new JsonObject(), res -> {
             if(res.succeeded()){
                 if(res.result()!=null){
-                    handler.handle(transformResult(res, Item::new));
+                    handler.handle(transformResult(res, ItemJava::new));
                 }else{
                     handler.handle(Future.failedFuture(NO_ITEM_FOUND_WITH_ID+id));
                 }
@@ -51,17 +51,17 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void createItem(Item item, Handler<AsyncResult<String>> handler) {
-        if(item.get_id()!=null){//todo decide if this logic  belongs to the service or dao level and update tests in dao and service accordingly
-            handler.handle(Future.failedFuture(ID_MUST_BE_NULL+item));
+    public void createItem(ItemJava itemJava, Handler<AsyncResult<String>> handler) {
+        if(itemJava.get_id()!=null){//todo decide if this logic  belongs to the service or dao level and update tests in dao and service accordingly
+            handler.handle(Future.failedFuture(ID_MUST_BE_NULL+ itemJava));
         }else{
-            client.insert(COLLECTION, item.toJson(), handler::handle);
+            client.insert(COLLECTION, itemJava.toJson(), handler::handle);
         }
     }
 
     @Override
-    public void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler) {
-        client.replace(COLLECTION, idObject(id), item.toJson(), res -> {
+    public void updateItem(String id, ItemJava itemJava, Handler<AsyncResult<Void>> handler) {
+        client.replace(COLLECTION, idObject(id), itemJava.toJson(), res -> {
             handler.handle(res);
         });
     }
