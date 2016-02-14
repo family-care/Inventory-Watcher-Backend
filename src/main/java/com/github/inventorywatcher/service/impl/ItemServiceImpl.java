@@ -2,6 +2,7 @@ package com.github.inventorywatcher.service.impl;
 
 import com.github.inventorywatcher.dao.ItemDao;
 import com.github.inventorywatcher.model.Item;
+import com.github.inventorywatcher.model.KtItem;
 import com.github.inventorywatcher.service.ItemService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -9,6 +10,9 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -48,6 +52,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void createItem(Item item, Handler<AsyncResult<String>> handler) {
+        KtItem item2 = new KtItem("fds", "321", "3213", 23.0d, "sss", null, new ArrayList<>(), null);
+
         List<String> errors = item.validate();
         if (errors.isEmpty()) {
             dao.createItem(item, res -> {
