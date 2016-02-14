@@ -4,3 +4,5 @@
 .idea
 inventory-tracker-backend-vertx.iml
 backend-vertx.iml
+/src/main/asciidoc
+/src/main/generated
