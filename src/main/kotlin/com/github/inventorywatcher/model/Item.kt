@@ -1,9 +1,6 @@
 package com.github.inventorywatcher.model
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.github.inventorywatcher.model.JsonConvertable
-import com.github.inventorywatcher.model.Notification
-import com.github.inventorywatcher.model.Validatable
 import io.vertx.codegen.annotations.DataObject
 import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
@@ -27,6 +24,7 @@ data class Item constructor(
         var notification: Notification?) : Validatable, JsonConvertable {
 
     val NAME_MUST_NOT_BE_NULL = "Name must not be null!"
+
 
     constructor(item: Item) : this(item._id, item.name, item.barcode, item.quantity, item.unit, item.bestBefore, item.tags, item.notification)
 

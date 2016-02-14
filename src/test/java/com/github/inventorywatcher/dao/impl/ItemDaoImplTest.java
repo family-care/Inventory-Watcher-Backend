@@ -56,9 +56,9 @@ public class ItemDaoImplTest {
 
     private static List<? extends JsonConvertable> getData() {
         return Arrays.asList(
-                new Item("#01", "rice", null, 5, "kg", null, null, null),
-                new Item("#02", "apple", null, 1, null, null, null, null),
-                new Item("#03", "pasta", null, 2, "kg", LocalDate.now().plusDays(20), null, new Notification(LocalDate.now().plusWeeks(2), 1, DateUnit.DAY))
+                new Item("#01", "rice", null, 5d, "kg", null, null, null),
+                new Item("#02", "apple", null, 1d, null, null, null, null),
+                new Item("#03", "pasta", null, 2d, "kg", LocalDate.now().plusDays(20), null, new Notification(LocalDate.now().plusWeeks(2), 1, DateUnit.DAY))
         );
     }
 
@@ -82,7 +82,7 @@ public class ItemDaoImplTest {
         ItemDao dao = ItemDao.create(vertx, CONFIG);
         dao.getItem("#01", res -> {
             context.assertTrue(res.succeeded());
-            Item expected = new Item("#01", "rice", null, 5, "kg", null, null, null);
+            Item expected = new Item("#01", "rice", null, 5d, "kg", null, null, null);
             Item test = res.result();
             context.assertEquals(expected, test);
             async.complete();
@@ -91,7 +91,7 @@ public class ItemDaoImplTest {
 
     @Test
     public void testCreateItem(TestContext context) {
-        Item expected = new Item(null, "test", "01024150", 15, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
+        Item expected = new Item(null, "test", "01024150", 15d, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
         Async async = context.async();
         ItemDao dao = ItemDao.create(vertx, CONFIG);
         dao.createItem(expected, res -> {
@@ -109,7 +109,7 @@ public class ItemDaoImplTest {
 
     @Test
     public void testCreateItemWithID(TestContext context) {
-        Item input = new Item("this shouldn't be here", "test", "01024150", 15, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
+        Item input = new Item("this shouldn't be here", "test", "01024150", 15d, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
         Async async = context.async();
         ItemDao dao = ItemDao.create(vertx, CONFIG);
         dao.createItem(input, res -> {
