@@ -1,8 +1,9 @@
 package com.github.inventorywatcher.verticle;
 
-import com.github.inventorywatcher.dao.EmbeddedMongo;
+
 import com.github.inventorywatcher.service.ItemService;
 import com.github.inventorywatcher.service.impl.ItemServiceImpl;
+import com.github.inventorywatcher.util.EmbeddedMongo;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
