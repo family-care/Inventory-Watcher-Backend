@@ -12,7 +12,7 @@ import org.junit.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ItemJavaTest {
+public class ItemTest {
 //todo test validate method
 
     @BeforeClass
