@@ -2,7 +2,7 @@ package com.github.inventorywatcher.service.impl;
 
 import com.github.inventorywatcher.dao.ItemDao;
 import com.github.inventorywatcher.model.Item;
-import com.github.inventorywatcher.model.KtItem;
+import com.github.inventorywathcer.model.KtItem;
 import com.github.inventorywatcher.service.ItemService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -10,9 +10,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**

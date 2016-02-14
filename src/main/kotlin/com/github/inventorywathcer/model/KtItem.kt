@@ -1,6 +1,9 @@
-package com.github.inventorywatcher.model
+package com.github.inventorywathcer.model
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.github.inventorywatcher.model.JsonConvertable
+import com.github.inventorywatcher.model.Notification
+import com.github.inventorywatcher.model.Validatable
 import io.vertx.codegen.annotations.DataObject
 import io.vertx.core.json.Json
 import io.vertx.core.json.JsonObject
