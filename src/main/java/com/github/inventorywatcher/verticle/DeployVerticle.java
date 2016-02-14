@@ -2,6 +2,7 @@ package com.github.inventorywatcher.verticle;
 
 
 import com.github.inventorywatcher.util.Runner;
+import com.github.inventorywatcher.verticle.http.HttpVerticle;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
