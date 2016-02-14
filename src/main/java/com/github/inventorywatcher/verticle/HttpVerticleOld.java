@@ -1,4 +1,4 @@
-package com.github.inventorywatcher.verticle.http;
+package com.github.inventorywatcher.verticle;
 
 import com.github.inventorywatcher.verticle.http.routing.FrontendHandler;
 import com.github.inventorywatcher.verticle.http.routing.LoginHandler;
@@ -7,7 +7,7 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.StaticHandler;
 
-public class HttpVerticle extends AbstractVerticle{
+public class HttpVerticleOld extends AbstractVerticle{
     String webRoot;
     String host;
     int port;
