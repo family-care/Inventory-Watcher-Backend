@@ -4,10 +4,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.inventorywatcher.MongoManager;
 import com.github.inventorywatcher.PortProvider;
 import com.github.inventorywatcher.dao.ItemDao;
-import com.github.inventorywatcher.model.DateUnit;
-import com.github.inventorywatcher.model.ItemJava;
-import com.github.inventorywatcher.model.JsonConvertable;
-import com.github.inventorywatcher.model.Notification;
+import com.github.inventorywatcher.model.*;
 import com.github.inventorywatcher.service.ItemService;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
@@ -29,8 +26,7 @@ import java.util.Set;
  * @author pjozsef
  */
 @RunWith(VertxUnitRunner.class)
-public class ItemJavaServiceImplTest {
-    //todo use kotlin Item instead of java version
+public class ItemServiceImplTest {
 
     private static final int MONGO_PORT = PortProvider.getNextPort();
     private static final JsonObject CONFIG = new JsonObject().put("host", "localhost").put("port", MONGO_PORT);
@@ -85,8 +81,8 @@ public class ItemJavaServiceImplTest {
         String id = "#01";
         service.getItem(id, res -> {
             context.assertTrue(res.succeeded());
-            ItemJava expected = new ItemJava("#01", "rice", null, 5, "kg", null, null, null);
-            ItemJava test = res.result();
+            Item expected = new Item("#01", "rice", null, 5d, "kg", null, null, null);
+            Item test = res.result();
             context.assertEquals(expected, test);
             async.complete();
         });
@@ -97,14 +93,14 @@ public class ItemJavaServiceImplTest {
      */
     @Test
     public void testCreateItem(TestContext context) {
-        ItemJava expected = new ItemJava(null, "test", "01024150", 15, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
+        Item expected = new Item(null, "test", "01024150", 15d, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
         Async async = context.async();
         service.createItem(expected, res -> {
             context.assertTrue(res.succeeded());
             String id = res.result();
             service.getItem(id, res2 -> {
                 context.assertTrue(res2.succeeded());
-                ItemJava test = res2.result();
+                Item test = res2.result();
                 expected.set_id(id);
                 context.assertEquals(expected, test);
                 async.complete();
@@ -114,7 +110,7 @@ public class ItemJavaServiceImplTest {
 
     @Test
     public void testCreateItemWithID(TestContext context) {
-        ItemJava input = new ItemJava("this shouldn't be here", "test", "01024150", 15, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
+        Item input = new Item("this shouldn't be here", "test", "01024150", 15d, "kg", LocalDate.parse("2007-10-12"), null, new Notification(LocalDate.parse("2010-05-12"), 0, null));
         Async async = context.async();
         service.createItem(input, res -> {
             context.assertFalse(res.succeeded());
@@ -133,13 +129,13 @@ public class ItemJavaServiceImplTest {
         Async async = context.async();
         service.getItem(id, res -> {
             context.assertTrue(res.succeeded());
-            ItemJava expected = res.result();
+            Item expected = res.result();
             expected.setName(newName);
             service.updateItem(id, expected, res2 -> {
                 context.assertTrue(res2.succeeded());
                 service.getItem(id, res3 -> {
                     context.assertTrue(res3.succeeded());
-                    ItemJava test = res3.result();
+                    Item test = res3.result();
                     context.assertEquals(newName, test.getName());
                     context.assertEquals(expected, test);
                     async.complete();
@@ -165,8 +161,8 @@ public class ItemJavaServiceImplTest {
                 });
                 service.getItems(res4 -> {
                     context.assertTrue(res4.succeeded());
-                    List<ItemJava> itemJavas = res4.result();
-                    itemJavas.stream().forEach((item) -> {
+                    List<Item> items = res4.result();
+                    items.stream().forEach((item) -> {
                         context.assertFalse(item.get_id().equals(id));
                     });
                     async.countDown();
@@ -177,9 +173,9 @@ public class ItemJavaServiceImplTest {
 
     private static List<? extends JsonConvertable> getData() {
         return Arrays.asList(
-                new ItemJava("#01", "rice", null, 5, "kg", null, null, null),
-                new ItemJava("#02", "apple", null, 1, null, null, null, null),
-                new ItemJava("#03", "pasta", null, 2, "kg", LocalDate.now().plusDays(20), null, new Notification(LocalDate.now().plusWeeks(2), 1, DateUnit.DAY))
+                new Item("#01", "rice", null, 5d, "kg", null, null, null),
+                new Item("#02", "apple", null, 1d, null, null, null, null),
+                new Item("#03", "pasta", null, 2d, "kg", LocalDate.now().plusDays(20), null, new Notification(LocalDate.now().plusWeeks(2), 1, DateUnit.DAY))
         );
     }
 }
