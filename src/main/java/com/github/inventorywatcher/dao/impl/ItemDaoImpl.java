@@ -1,7 +1,7 @@
 package com.github.inventorywatcher.dao.impl;
 
 import com.github.inventorywatcher.dao.ItemDao;
-import com.github.inventorywatcher.model.ItemJava;
+import com.github.inventorywatcher.model.Item;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -18,7 +18,6 @@ public class ItemDaoImpl implements ItemDao {
     private final MongoClient client;
     private final Vertx vertx;
 //todo specify config object
-    //todo use kotlin Item instead of java version
 
     public ItemDaoImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;
@@ -26,43 +25,43 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void getItems(Handler<AsyncResult<List<ItemJava>>> handler) {
+    public void getItems(Handler<AsyncResult<List<Item>>> handler) {
         client.find(COLLECTION, new JsonObject(), res
-                -> handler.handle(
-                        transformResult(res, jsons
-                                -> jsons.stream().map(ItemJava::new).collect(Collectors.toList()))
+                        -> handler.handle(
+                transformResult(res, jsons
+                        -> jsons.stream().map(Item::new).collect(Collectors.toList()))
                 )
         );
     }
 
     @Override
-    public void getItem(String id, Handler<AsyncResult<ItemJava>> handler) {
+    public void getItem(String id, Handler<AsyncResult<Item>> handler) {
         client.findOne(COLLECTION, idObject(id), new JsonObject(), res -> {
-            if(res.succeeded()){
-                if(res.result()!=null){
-                    handler.handle(transformResult(res, ItemJava::new));
-                }else{
-                    handler.handle(Future.failedFuture(NO_ITEM_FOUND_WITH_ID+id));
+                    if (res.succeeded()) {
+                        if (res.result() != null) {
+                            handler.handle(transformResult(res, Item::new));
+                        } else {
+                            handler.handle(Future.failedFuture(NO_ITEM_FOUND_WITH_ID + id));
+                        }
+                    } else {
+                        handler.handle(Future.failedFuture(res.cause()));
+                    }
                 }
-            }else{
-                handler.handle(Future.failedFuture(res.cause()));
-            }
-        }
         );
     }
 
     @Override
-    public void createItem(ItemJava itemJava, Handler<AsyncResult<String>> handler) {
-        if(itemJava.get_id()!=null){//todo decide if this logic  belongs to the service or dao level and update tests in dao and service accordingly
-            handler.handle(Future.failedFuture(ID_MUST_BE_NULL+ itemJava));
-        }else{
-            client.insert(COLLECTION, itemJava.toJson(), handler::handle);
+    public void createItem(Item item, Handler<AsyncResult<String>> handler) {
+        if (item.get_id() != null) {//todo decide if this logic  belongs to the service or dao level and update tests in dao and service accordingly
+            handler.handle(Future.failedFuture(ID_MUST_BE_NULL + item));
+        } else {
+            client.insert(COLLECTION, item.toJson(), handler::handle);
         }
     }
 
     @Override
-    public void updateItem(String id, ItemJava itemJava, Handler<AsyncResult<Void>> handler) {
-        client.replace(COLLECTION, idObject(id), itemJava.toJson(), res -> {
+    public void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler) {
+        client.replace(COLLECTION, idObject(id), item.toJson(), res -> {
             handler.handle(res);
         });
     }

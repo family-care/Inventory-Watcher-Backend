@@ -2,7 +2,6 @@ package com.github.inventorywatcher.service.impl;
 
 import com.github.inventorywatcher.dao.ItemDao;
 import com.github.inventorywatcher.model.Item;
-import com.github.inventorywatcher.model.ItemJava;
 import com.github.inventorywatcher.service.ItemService;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -10,7 +9,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +17,6 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     private final Vertx vertx;
     private final ItemDao dao;
-    //todo use kotlin Item instead of java version
-
     //todo specify config object
     public ItemServiceImpl(Vertx vertx, JsonObject config) {
         this.vertx = vertx;
@@ -28,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void getItems(Handler<AsyncResult<List<ItemJava>>> handler) {
+    public void getItems(Handler<AsyncResult<List<Item>>> handler) {
         dao.getItems(res -> {
             if (res.succeeded()) {
                 handler.handle(Future.succeededFuture(res.result()));
@@ -39,7 +35,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void getItem(String id, Handler<AsyncResult<ItemJava>> handler) {
+    public void getItem(String id, Handler<AsyncResult<Item>> handler) {
         dao.getItem(id, res -> {
             if (res.succeeded()) {
                 handler.handle(Future.succeededFuture(res.result()));
@@ -50,12 +46,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void createItem(ItemJava itemJava, Handler<AsyncResult<String>> handler) {
-        Item item2 = new Item("fds", "321", "3213", 23.0d, "sss", null, new ArrayList<>(), null);
-
-        List<String> errors = itemJava.validate();
+    public void createItem(Item item, Handler<AsyncResult<String>> handler) {
+        List<String> errors = item.validate();
         if (errors.isEmpty()) {
-            dao.createItem(itemJava, res -> {
+            dao.createItem(item, res -> {
                 if (res.succeeded()) {
                     handler.handle(Future.succeededFuture(res.result()));
                 } else {
@@ -68,10 +62,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(String id, ItemJava itemJava, Handler<AsyncResult<Void>> handler) {
-        List<String> errors = itemJava.validate();
+    public void updateItem(String id, Item item, Handler<AsyncResult<Void>> handler) {
+        List<String> errors = item.validate();
         if (errors.isEmpty()) {
-            dao.updateItem(id, itemJava, res -> {
+            dao.updateItem(id, item, res -> {
                 if (res.succeeded()) {
                     handler.handle(Future.succeededFuture(res.result()));
                 } else {
