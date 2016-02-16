@@ -1,6 +1,6 @@
 package com.github.inventorywatcher.verticle.http.route;
 
-import com.github.inventorywatcher.model.ItemJava;
+import com.github.inventorywatcher.model.Item;
 import com.github.inventorywatcher.service.ItemService;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerRequest;
@@ -18,7 +18,6 @@ public class ItemRouterV1 {
         this.vertx = vertx;
         itemService = ProxyHelper.createProxy(ItemService.class, vertx, ItemService.ADDRESS);
     }
-    //todo use kotlin Item instead of java version
 
     public Router get() {
         final Router sub = Router.router(vertx);
@@ -53,8 +52,8 @@ public class ItemRouterV1 {
     }
     private void post(RoutingContext ctx) {//todo this is a dummy implementation
         HttpServerResponse res = ctx.response();
-        ItemJava itemJava = new ItemJava(null, "dummy", null, Math.random() * 200, null, null, null, null);
-        itemService.createItem(itemJava, cb -> {
+        Item item = new Item(null, "dummy", null, Math.random() * 200, null, null, null, null);
+        itemService.createItem(item, cb -> {
             if (cb.succeeded()) {
                 res.end(cb.result());
             } else {
