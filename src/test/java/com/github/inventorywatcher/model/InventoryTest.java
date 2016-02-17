@@ -2,9 +2,11 @@ package com.github.inventorywatcher.model;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by hunyadym on 2016. 02. 17..
  */
-public class UserTest {
+public class InventoryTest {
 
 
     @BeforeClass
@@ -35,9 +37,10 @@ public class UserTest {
 
     @Test
     public void testPojoToString() {
-        String test = Json.encode(new User(null, "AAA"));
+        String test = Json.encode(new Inventory("AAA", new ArrayList<>()));
         String expected = new JsonObject()
-                .put("right", "AAA")
+                .put("name", "AAA")
+                .put("items", new JsonArray())
                 .encode();
         assertEquals(expected, test);
     }
@@ -45,32 +48,33 @@ public class UserTest {
     @Test
     public void testStringToPojo() {
         String test = new JsonObject()
-                .put("right", "AAA")
+                .put("name", "AAA")
+                .put("items", new JsonArray())
                 .encode();
-        String expected = Json.encode(new User(null, "AAA"));
+        String expected = Json.encode(new Inventory("AAA", new ArrayList<>()));
         assertEquals(expected, test);
     }
 
     @Test
     public void testValidateValidItem() {
-        User input = new User("123", "AAA");
+        Inventory input = new Inventory("AAA", new ArrayList<>());
         List<String> errors = input.validate();
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testValidateInvalidItem() {
-        User input = new User();
+        Inventory input = new Inventory();
         List<String> errors = input.validate();
         assertEquals(1, errors.size());
-        assertTrue(errors.contains(User.Message.getID_MUST_NOT_BE_NULL()));
+        assertTrue(errors.contains(Inventory.Message.getNAME_MUST_NOT_BE_NULL()));
     }
 
     @Test
     public void testJsonConvertable() {
-        User expected = new User(null, "AAA");
+        Inventory expected = new Inventory("AAA", new ArrayList<>());
         String json = expected.toJsonString();
-        User test = new User(json);
+        Inventory test = new Inventory(json);
         assertEquals(expected, test);
     }
 

@@ -20,7 +20,7 @@ data class Item constructor(
         var quantity: Double?,
         var unit: String?,
         var bestBefore: LocalDate?,
-        var tags: ArrayList<String>?,
+        var tags: List<String>?,
         var notification: Notification?) : Validatable, JsonConvertable {
 
     companion object Message{

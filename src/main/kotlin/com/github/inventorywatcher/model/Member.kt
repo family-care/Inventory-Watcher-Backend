@@ -12,7 +12,7 @@ import java.util.*
 
 @DataObject
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class User constructor(var _id: String?, var right: String?) : Validatable, JsonConvertable {
+data class Member constructor(var _id: String?, var right: String?) : Validatable, JsonConvertable {
 
 
     companion object Message {
@@ -21,17 +21,17 @@ data class User constructor(var _id: String?, var right: String?) : Validatable,
 
     constructor() : this(null, null)
 
-    constructor(user: User) : this(user._id, user.right)
+    constructor(member: Member) : this(member._id, member.right)
 
-    constructor(json: JsonObject) : this(Json.decodeValue(json.encode(), User::class.java))
+    constructor(json: JsonObject) : this(Json.decodeValue(json.encode(), Member::class.java))
 
-    constructor(json: String) : this(Json.decodeValue(json, User::class.java))
+    constructor(json: String) : this(Json.decodeValue(json, Member::class.java))
 
 
     override fun validate(): List<String> {
         val errors = ArrayList<String>()
         if (_id == null) {
-            errors.add(User.ID_MUST_NOT_BE_NULL)
+            errors.add(Member.ID_MUST_NOT_BE_NULL)
         }
         return errors
     }

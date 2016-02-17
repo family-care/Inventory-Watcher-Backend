@@ -12,7 +12,7 @@ import java.util.*
 
 @DataObject
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class Inventory constructor(var name: String?, var subInventorys: ArrayList<Item>?) : Validatable, JsonConvertable {
+data class Inventory constructor(var name: String?, var items: List<Item>?) : Validatable, JsonConvertable {
 
 
     companion object Message {
@@ -22,7 +22,7 @@ data class Inventory constructor(var name: String?, var subInventorys: ArrayList
 
     constructor() : this(null, null)
 
-    constructor(subInventorys: Inventory) : this(subInventorys.name, subInventorys.subInventorys)
+    constructor(inventory: Inventory) : this(inventory.name, inventory.items)
 
     constructor(json: JsonObject) : this(Json.decodeValue(json.encode(), Inventory::class.java))
 
@@ -31,7 +31,7 @@ data class Inventory constructor(var name: String?, var subInventorys: ArrayList
 
     override fun validate(): List<String> {
         val errors = ArrayList<String>()
-        if (subInventorys == null) {
+        if (items == null) {
             errors.add(Inventory.NAME_MUST_NOT_BE_NULL)
         }
         return errors

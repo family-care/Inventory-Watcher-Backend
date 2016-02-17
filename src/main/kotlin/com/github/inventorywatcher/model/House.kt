@@ -15,8 +15,8 @@ import java.util.*
 data class House constructor(
         var _id: String?,
         var name: String?,
-        var users: ArrayList<User>?,
-        var inventory: ArrayList<Inventory>?
+        var members: List<Member>?,
+        var inventory: List<Inventory>?
 ) : Validatable, JsonConvertable {
 
     companion object Message {
@@ -25,7 +25,7 @@ data class House constructor(
 
     constructor() : this(null, null, null, null)
 
-    constructor(house: House) : this(house._id, house.name, house.users, house.inventory)
+    constructor(house: House) : this(house._id, house.name, house.members, house.inventory)
 
     constructor(json: JsonObject) : this(Json.decodeValue(json.encode(), House::class.java))
 

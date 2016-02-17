@@ -2,11 +2,9 @@ package com.github.inventorywatcher.model;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -15,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by hunyadym on 2016. 02. 17..
  */
-public class HouseTest {
+public class MemberTest {
 
 
     @BeforeClass
@@ -37,11 +35,9 @@ public class HouseTest {
 
     @Test
     public void testPojoToString() {
-        String test = Json.encode(new House(null, "AAA", new ArrayList<>(), new ArrayList<>()));
+        String test = Json.encode(new Member(null, "AAA"));
         String expected = new JsonObject()
-                .put("name", "AAA")
-                .put("members", new JsonArray())
-                .put("inventory", new JsonArray())
+                .put("right", "AAA")
                 .encode();
         assertEquals(expected, test);
     }
@@ -49,34 +45,32 @@ public class HouseTest {
     @Test
     public void testStringToPojo() {
         String test = new JsonObject()
-                .put("name", "AAA")
-                .put("members", new JsonArray())
-                .put("inventory", new JsonArray())
+                .put("right", "AAA")
                 .encode();
-        String expected = Json.encode(new House(null, "AAA", new ArrayList<>(), new ArrayList<>()));
+        String expected = Json.encode(new Member(null, "AAA"));
         assertEquals(expected, test);
     }
 
     @Test
     public void testValidateValidItem() {
-        House input = new House(null, "AAA", new ArrayList<>(), new ArrayList<>());
+        Member input = new Member("123", "AAA");
         List<String> errors = input.validate();
         assertTrue(errors.isEmpty());
     }
 
     @Test
     public void testValidateInvalidItem() {
-        House input = new House();
+        Member input = new Member();
         List<String> errors = input.validate();
         assertEquals(1, errors.size());
-        assertTrue(errors.contains(House.Message.getNAME_MUST_NOT_BE_NULL()));
+        assertTrue(errors.contains(Member.Message.getID_MUST_NOT_BE_NULL()));
     }
 
     @Test
     public void testJsonConvertable() {
-        House expected = new House(null, "AAA", new ArrayList<>(), new ArrayList<>());
+        Member expected = new Member(null, "AAA");
         String json = expected.toJsonString();
-        House test = new House(json);
+        Member test = new Member(json);
         assertEquals(expected, test);
     }
 
