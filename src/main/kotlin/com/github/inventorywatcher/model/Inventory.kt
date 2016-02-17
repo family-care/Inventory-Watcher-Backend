@@ -12,11 +12,17 @@ import java.util.*
 
 @DataObject
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class Inventory constructor(var subInventorys: LinkedList<Item>?, var name: String?) : Validatable, JsonConvertable {
+data class Inventory constructor(var name: String?, var subInventorys: LinkedList<Item>?) : Validatable, JsonConvertable {
+
+
+    companion object Message {
+        val NAME_MUST_NOT_BE_NULL = "Name must not be null!"
+    }
+
 
     constructor() : this(null, null)
 
-    constructor(subInventorys: Inventory) : this(subInventorys.subInventorys, subInventorys.name)
+    constructor(subInventorys: Inventory) : this(subInventorys.name, subInventorys.subInventorys)
 
     constructor(json: JsonObject) : this(Json.decodeValue(json.encode(), Inventory::class.java))
 
@@ -26,7 +32,7 @@ data class Inventory constructor(var subInventorys: LinkedList<Item>?, var name:
     override fun validate(): List<String> {
         val errors = ArrayList<String>()
         if (subInventorys == null) {
-            errors.add(House.NAME_MUST_NOT_BE_NULL)
+            errors.add(Inventory.NAME_MUST_NOT_BE_NULL)
         }
         return errors
     }

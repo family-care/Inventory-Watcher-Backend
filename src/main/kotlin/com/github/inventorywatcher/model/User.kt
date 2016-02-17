@@ -14,6 +14,11 @@ import java.util.*
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class User constructor(var _id: String?, var right: String?) : Validatable, JsonConvertable {
 
+
+    companion object Message {
+        val ID_MUST_NOT_BE_NULL = "ID must not be null!"
+    }
+
     constructor() : this(null, null)
 
     constructor(user: User) : this(user._id, user.right)
@@ -26,7 +31,7 @@ data class User constructor(var _id: String?, var right: String?) : Validatable,
     override fun validate(): List<String> {
         val errors = ArrayList<String>()
         if (_id == null) {
-            errors.add(House.NAME_MUST_NOT_BE_NULL)
+            errors.add(User.ID_MUST_NOT_BE_NULL)
         }
         return errors
     }
