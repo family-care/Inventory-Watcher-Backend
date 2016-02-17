@@ -1,0 +1,372 @@
+swagger: '2.0'
+info:
+  title: Inventory Tracker API
+  description: The REST API for the webapplication Inventory Tracker.
+  version: 0.1.0
+host: pjozsef.ddns.net
+schemes:
+  - http
+basePath: /v1
+produces:
+  - application/json
+paths:
+  /houses:
+    get:
+      summary: Get all houses
+      responses:
+        '200':
+          description: An array of all houses
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/House'
+    post:
+      summary: Create a house
+      parameters:
+        - name: house
+          in: body
+          description: the house to create
+          required: true
+          schema:
+            $ref: '#/definitions/House'
+      responses:
+        '200':
+          description: New house successfully created. ID is returned.
+          schema:
+            type: string
+  /houses/{houseid}:
+    get:
+      summary: Gets a single house
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The house matching the ID.
+          schema:
+            $ref: '#/definitions/House'
+    put:
+      summary: Update a single house
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: house
+          in: body
+          description: parts of the house to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/House'
+      responses:
+        '200':
+          description: The ID of the updated house.
+          schema:
+            type: string
+    delete:
+      summary: Delete a single house
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The ID of the deleted house.
+          schema:
+            type: string
+  /houses/{houseid}/members:
+    get:
+      summary: Gets the members of the house
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The members of the house.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Member'
+    post:
+      summary: Adds a member to the house
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: member
+          in: body
+          description: the new member to create
+          required: true
+          schema:
+            $ref: '#/definitions/Member'
+      responses:
+        '200':
+          description: The ID of the new member.
+          schema:
+            type: string
+  /houses/{houseid}/members/{memberid}:
+    get:
+      summary: Gets a single member
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: memberid
+          in: path
+          description: the ID of member
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The member that matches the ID.
+          schema:
+            $ref: '#/definitions/Member'
+    put:
+      summary: Update a single member
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: memberid
+          in: path
+          description: the ID of member
+          required: true
+          type: string
+        - name: member
+          in: body
+          description: Parts of the member to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Member'
+      responses:
+        '200':
+          description: The ID of the updated member.
+          schema:
+            type: string
+    delete:
+      summary: Delete a single member
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: memberid
+          in: path
+          description: the ID of member
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The ID of the deleted member.
+          schema:
+            type: string
+  /house/{houseid}/{inventory}:
+    get:
+      summary: Get all items from an inventory category
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: inventory
+          in: path
+          description: the name of the inventory category
+          required: true
+          type: string
+      responses:
+        '200':
+          description: An array of all items
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Item'
+    post:
+      summary: Create new item
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: inventory
+          in: path
+          description: the name of the inventory category
+          required: true
+          type: string
+        - name: item
+          in: body
+          description: parts of the item to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Item'
+      responses:
+        '200':
+          description: New item successfully created. ID is returned.
+          schema:
+            type: string
+  /house/{houseid}/{inventory}/{itemid}':
+    get:
+      summary: Gets a single item
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: inventory
+          in: path
+          description: the name of the inventory category
+          required: true
+          type: string
+        - name: itemid
+          in: path
+          description: the ID of the item
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The item matching the ID.
+          schema:
+            $ref: '#/definitions/Item'
+    put:
+      summary: Update a single item
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: inventory
+          in: path
+          description: the name of the inventory category
+          required: true
+          type: string
+        - name: itemid
+          in: path
+          description: the ID of the item
+          required: true
+          type: string
+        - name: item
+          in: body
+          description: parts of the item to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Item'
+      responses:
+        '200':
+          description: The ID of the updated item
+          schema:
+            type: string
+    delete:
+      summary: Delete a single item
+      parameters:
+        - name: houseid
+          in: path
+          description: the ID of the house
+          required: true
+          type: string
+        - name: inventory
+          in: path
+          description: the name of the inventory category
+          required: true
+          type: string
+        - name: itemid
+          in: path
+          description: the ID of the item
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The ID of the updated item
+          schema:
+            type: string
+definitions:
+  House:
+    type: object
+    properties:
+      name:
+        type: string
+      members:
+        type: array
+        items:
+          $ref: '#/definitions/Member'
+      inventory:
+        type: object
+        additionalProperties:
+          type: array
+          items: 
+            $ref: '#/definitions/Item'
+    required: [name]
+  Member:
+    type: object
+    properties:
+      _id: 
+        type: string
+      right:
+        type: string
+        enum:
+          - admin
+          - write
+          - read
+  Item:
+    type: object
+    properties:
+      name:
+        type: string
+      barcode:
+        type: string
+      quantity:
+        type: integer
+      unit:
+        type: string
+      bestBefore:
+        type: string
+        format: date-time
+      tags:
+        type: array
+        items: 
+          type: string
+      notification:
+        $ref: '#/definitions/Notification'
+    required:
+      - name
+      - quantity
+  Notification:
+    type: object
+    required:
+        - on
+    properties:
+      on:            
+        type: string
+        format: date-time
+      repeat:
+        type: object
+        required:
+          - every
+          - unit            
+        properties:
+          every:
+            type: integer
+          unit:
+            enum:
+              - month
+              - week
+              - day
+
