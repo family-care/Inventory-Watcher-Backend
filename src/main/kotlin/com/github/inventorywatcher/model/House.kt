@@ -15,8 +15,8 @@ import java.util.*
 data class House constructor(
         var _id: String?,
         var name: String?,
-        var users: LinkedList<User>?,
-        var inventory: LinkedList<Inventory>?
+        var users: ArrayList<User>?,
+        var inventory: ArrayList<Inventory>?
 ) : Validatable, JsonConvertable {
 
     companion object Message {

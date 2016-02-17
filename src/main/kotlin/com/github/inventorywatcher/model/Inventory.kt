@@ -12,7 +12,7 @@ import java.util.*
 
 @DataObject
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class Inventory constructor(var name: String?, var subInventorys: LinkedList<Item>?) : Validatable, JsonConvertable {
+data class Inventory constructor(var name: String?, var subInventorys: ArrayList<Item>?) : Validatable, JsonConvertable {
 
 
     companion object Message {
