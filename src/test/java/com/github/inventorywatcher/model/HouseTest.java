@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.junit.*;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +37,7 @@ public class HouseTest {
 
     @Test
     public void testPojoToString() {
-        String test = Json.encode(new House(null, "AAA", new LinkedList<>(), new LinkedList<>()));
+        String test = Json.encode(new House(null, "AAA", new ArrayList<>(), new ArrayList<>()));
         String expected = new JsonObject()
                 .put("name", "AAA")
                 .put("users", new JsonArray())
@@ -53,13 +53,13 @@ public class HouseTest {
                 .put("users", new JsonArray())
                 .put("inventory", new JsonArray())
                 .encode();
-        String expected = Json.encode(new House(null, "AAA", new LinkedList<>(), new LinkedList<>()));
+        String expected = Json.encode(new House(null, "AAA", new ArrayList<>(), new ArrayList<>()));
         assertEquals(expected, test);
     }
 
     @Test
     public void testValidateValidItem() {
-        House input = new House(null, "AAA", new LinkedList<>(), new LinkedList<>());
+        House input = new House(null, "AAA", new ArrayList<>(), new ArrayList<>());
         List<String> errors = input.validate();
         assertTrue(errors.isEmpty());
     }
@@ -74,7 +74,7 @@ public class HouseTest {
 
     @Test
     public void testJsonConvertable() {
-        House expected = new House(null, "AAA", new LinkedList<>(), new LinkedList<>());
+        House expected = new House(null, "AAA", new ArrayList<>(), new ArrayList<>());
         String json = expected.toJsonString();
         House test = new House(json);
         assertEquals(expected, test);
